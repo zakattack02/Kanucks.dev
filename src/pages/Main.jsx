@@ -9,8 +9,7 @@ export default function Main() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h2>Zak Konik
-        </h2>
+        <h2>Zak Konik</h2>
       </motion.h1>
 
       <nav className="flex justify-center items-center gap-6 mt-2">
