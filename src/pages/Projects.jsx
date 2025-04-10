@@ -62,6 +62,18 @@ const Projects = () => {
         </div>
       </section>
 
+
+    <span style={{
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      backgroundColor: "var(--bg-repo)",
+      marginTop: "0",
+      padding: "2em",
+      borderBottomLeftRadius: "20px",
+      borderBottomRightRadius: "20px",
+      marginBottom: "4em"
+    }}>
       <section className="repos">
         <input
           type="text"
@@ -87,6 +99,7 @@ const Projects = () => {
           ))}
         </ul>
       </section>
+      </span>
     </main>
   );
 };

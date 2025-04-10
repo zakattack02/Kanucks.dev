@@ -1,3 +1,10 @@
+/* projects.css */
+.projects-container {
+    background-color: #1a1c1d;
+    color: #eeeeee;
+    padding: 2rem;
+
+
 @media (prefers-color-scheme: light) {
     :root {
         --text: #151515;
@@ -253,13 +260,10 @@ span {
     margin: 0 0.5em;
 }
 
-/* projects.css */
-.projects-container {
-  background-color: #1a1c1d;
-  color: #eeeeee;
-  padding: 2rem;
-}
+
 
 .repo {
   margin-bottom: 1rem;
+}
+
 }
