@@ -21,7 +21,7 @@ export default function Main() {
             className="w-8 h-8"
           />
         </a>
-        <a href="https://www.linkedin.com/in/zak-konik/" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/zachary-konik/" aria-label="LinkedIn">
           <img
             src="/icons8-linkedin-100.png"
             alt="LinkedIn"
