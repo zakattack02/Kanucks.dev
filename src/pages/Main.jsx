@@ -15,21 +15,21 @@ export default function Main() {
       <nav className="flex justify-center items-center gap-6 mt-2">
         <a href="https://github.com/zakattack02/" aria-label="GitHub">
           <img
-            src="/src/assets/github-mark-white.svg"
+            src="/github-mark-white.svg"
             alt="GitHub"
             className="w-8 h-8"
           />
         </a>
-        <a href="https://www.linkedin.com/in/zak-konik/" aria-label="LinkedIn">
+        <a href="https://www.linkedin.com/in/zachary-konik/" aria-label="LinkedIn">
           <img
-            src="/src/assets/icons8-linkedin-100.png"
+            src="/icons8-linkedin-100.png"
             alt="LinkedIn"
             className="w-8 h-8"
           />
         </a>
         <a href="mailto:zak@zmbg.us" aria-label="Email">
           <img
-            src="/src/assets/icons8-email-100.png"
+            src="/icons8-email-100.png"
             alt="Email"
             className="w-8 h-8"
           />
