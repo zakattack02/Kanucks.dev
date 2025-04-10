@@ -8,18 +8,14 @@
   </head>
   
   <body style="">
-    <nav style="padding: 0.5rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);">
-      <a href="/" style="margin: 0 1rem; text-decoration: none; color: #007bff;">Home</a>
-      <a href="/projects" style="margin: 0 1rem; text-decoration: none; color: #007bff;">Projects</a>
-      <a href="/about" style="margin: 0 1rem; text-decoration: none; color: #007bff;">About</a>
-    </nav>
+    
     <div style="display: grid; place-items: center;">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+      <div id="root"></div>
+      <script type="module" src="/src/main.jsx"></script>
     <script>
       window.addEventListener('load', () => {
         const script = document.createElement('script');
-        script.src = '/src/scripts/github-script.js';
+        
         script.type = 'module';
         document.body.appendChild(script);
       });

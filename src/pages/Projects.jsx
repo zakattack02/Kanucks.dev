@@ -1,38 +1,92 @@
 // src/pages/Projects.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "../projects.css"; // Import the CSS file
 
 const Projects = () => {
-  return (
-    <main className="container mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold">All Of My Projects</h1>
-      <small className="block mt-2 text-gray-600">
-        Some useful, some stupid, all fun!
-      </small>
+  const [profile, setProfile] = useState(null);
+  const [repos, setRepos] = useState([]);
+  const [search, setSearch] = useState("");
 
-      <section className="intro mt-8">
-        <div className="user-info"></div>
+  useEffect(() => {
+    // Fetch user profile
+    const fetchProfile = async () => {
+      const res = await fetch("https://api.github.com/users/zakattack02");
+      const data = await res.json();
+      setProfile(data);
+    };
+
+    // Fetch repositories
+    const fetchRepos = async () => {
+      const res = await fetch(
+        "https://api.github.com/users/zakattack02/repos?sort=pushed"
+      );
+      const data = await res.json();
+      setRepos(data);
+    };
+
+    fetchProfile();
+    fetchRepos();
+  }, []);
+
+  const filteredRepos = repos.filter((repo) =>
+    repo.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <main className="projects-container">
+      <section className="intro">
+        <div className="user-info">
+          {profile && (
+            <>
+              <figure>
+                <img alt="user avatar" src={profile.avatar_url} />
+              </figure>
+              <div>
+                <h2>
+                  <a href={profile.html_url}>
+                    <strong>{profile.name} - {profile.login}</strong>
+                  </a>
+                </h2>
+                <p>{profile.bio}</p>
+                <p>
+                  Followers: <strong>{profile.followers}</strong> Repos:{" "}
+                  <strong>{profile.public_repos}</strong> Gists:{" "}
+                  <strong>{profile.public_gists}</strong>
+                </p>
+                <p>
+                  Work: {profile.company} Location: {profile.location}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
       </section>
 
-      <section className="repos mt-8">
+      <section className="repos">
         <input
           type="text"
-          className="filter-repos block mx-auto p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="filter-repos"
           placeholder="Search Projects"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        <ul className="repo-list mt-4 space-y-4">
-          {/* Dynamically render project list items here */}
+        <ul className="repo-list">
+          {filteredRepos.map((repo) => (
+            <li key={repo.id} className="repo">
+              <h3 className="repo-name">{repo.name}</h3>
+              <p className="repo-description">{repo.description}</p>
+              <a href={repo.html_url} className="link-btn">
+                View Code
+              </a>
+              {repo.homepage && (
+                <a href={repo.homepage} className="link-btn">
+                  Live Demo
+                </a>
+              )}
+            </li>
+          ))}
         </ul>
       </section>
-
-      <h4 className="mt-12 text-gray-700">
-        Made with ❤ by{" "}
-        <a
-          href="https://github.com/zakattack02/zakattack02"
-          className="text-blue-500 hover:underline"
-        >
-          zakattack02 X OSS
-        </a>
-      </h4>
     </main>
   );
 };
