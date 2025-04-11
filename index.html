@@ -2,13 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml"/>
+    <link rel="icon" type="image/svg+xml" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zak Konik</title>
   </head>
-  <body style=" justify-content: center;">
+  
+  <body style="justify-content: center;place-items: center;">
+    <nav style="padding: 1rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);">
+      <a href="/" style="margin: 0 1rem; text-decoration: none; color: #007bff;">Home</a>
+      <a href="/projects.html" style="margin: 0 1rem; text-decoration: none; color: #007bff;">Projects</a>
+      <a href="/about" style="margin: 0 1rem; text-decoration: none; color: #007bff;">About</a>
+    </nav>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    
+    <script>
+      window.addEventListener('load', () => {
+        const script = document.createElement('script');
+        script.src = 'src/components/github-script.js';
+        script.type = 'module';
+        document.body.appendChild(script);
+      });
+    </script>
   </body>
 </html>
