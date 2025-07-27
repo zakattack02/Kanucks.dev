@@ -2,15 +2,7 @@
 
 export function startCanvasAnimation(canvas) {
     const ctx = canvas.getContext("2d");
-    
-    // Test if canvas is working first
-    console.log('Canvas animation started, testing basic drawing...');
-    ctx.strokeStyle = '#00FF00';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(50, 50);
-    ctx.lineTo(200, 200);
-    ctx.stroke();
+    console.log('Canvas animation started, canvas size:', canvas.width, 'x', canvas.height);
     
     let animationFrameId;
 
@@ -34,8 +26,8 @@ var start_branches = 3;
 
 var max_steps_back = 300; //> config
 
-var lightness_default = 130;
-var lightness_branch = 50;
+var lightness_default = 60; // Increased brightness
+var lightness_branch = 80; // Increased brightness
 
 var cells = [];
 var branchList = [];
@@ -81,7 +73,7 @@ class Branch {
         if(!fromPos) {
             fromPos = this.pos;
         }
-        context.lineWidth = 2;
+        context.lineWidth = 4; // Increased from 2 for better visibility
         context.strokeStyle = this.getColor();
         context.beginPath();
         let offset = context.lineWidth;
@@ -277,7 +269,7 @@ function testDraw(ctx) {
 function draw(canvas, ctx) {
     const config = {
       start_branches: 3,
-      scale: 3
+      scale: 6 // Increased from 3 for larger, more visible lines
     };
 
     console.log('Drawing frame, branch count:', branchList.length);
