@@ -3,7 +3,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="pt-32 pb-24 px-8 bg-gray-800 text-white min-h-screen flex flex-col justify-center">
+    <div className="pt-32 pb-24 px-8 text-white min-h-screen flex flex-col justify-center" style={{ backgroundColor: "#1a1c1d" }}>
       <div className="container mx-auto px-8 text-center max-w-4xl">
         <h2 className="text-4xl font-bold mb-12">About Me</h2>
         <div className="space-y-8">
