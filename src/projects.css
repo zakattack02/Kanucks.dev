@@ -109,8 +109,7 @@ ul {
     color: var(--text);
     font-size: 16px;
     padding: 1em;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 20px;
 }
 
 .user-info figure {
