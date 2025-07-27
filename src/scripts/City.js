@@ -2,6 +2,16 @@
 
 export function startCanvasAnimation(canvas) {
     const ctx = canvas.getContext("2d");
+    
+    // Test if canvas is working first
+    console.log('Canvas animation started, testing basic drawing...');
+    ctx.strokeStyle = '#00FF00';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(50, 50);
+    ctx.lineTo(200, 200);
+    ctx.stroke();
+    
     let animationFrameId;
 
 var cell_count_x = 0;
@@ -19,7 +29,7 @@ var prop_branchOff_tomain = 1;
 var branch_fallOff = 50;
 var change_hue_newMain = 9;
 // var start_branches = wallpaper.configuration.start_branches; // 3
-var start_branches = 0;
+var start_branches = 3;
 // var start_branches = 3; // 3
 
 var max_steps_back = 300; //> config
@@ -97,13 +107,13 @@ class Branch {
         if (pos.x + 1 < cell_count_x && cells[pos.toIdx(1,0)] === 0) {
             freeFields.push(new Pos(pos.x+1, pos.y));
         }
-        if (pos.x - 1 > 0 && cells[pos.toIdx(-1,0)] === 0) {
+        if (pos.x - 1 >= 0 && cells[pos.toIdx(-1,0)] === 0) {
             freeFields.push(new Pos(pos.x-1, pos.y));
         }
         if (pos.y + 1 < cell_count_y && cells[pos.toIdx(0,1)] === 0) { 
             freeFields.push(new Pos(pos.x, pos.y+1));
         }
-        if (pos.x - 1 > 0 && cells[pos.toIdx(0,-1)] === 0) { 
+        if (pos.y - 1 >= 0 && cells[pos.toIdx(0,-1)] === 0) { 
             freeFields.push(new Pos(pos.x, pos.y-1));
         }
         return freeFields;
@@ -251,7 +261,7 @@ function paintMatrix(ctx, size, config){
 }
 
 function restart(ctx, config) {
-    ctx.reset();
+    ctx.clearRect(0, 0, width, height);
     initialize(config);
 }
 
@@ -270,10 +280,13 @@ function draw(canvas, ctx) {
       scale: 3
     };
 
+    console.log('Drawing frame, branch count:', branchList.length);
+    
     const keepGoing = paintMatrix(ctx, { width: canvas.width, height: canvas.height }, config);
     if (keepGoing) {
       requestAnimationFrame(() => draw(canvas, ctx));
     } else {
+      console.log('Animation stopped, restarting...');
       // Restart animation after a delay when it stops
       setTimeout(() => {
         restart(ctx, config);
@@ -282,6 +295,7 @@ function draw(canvas, ctx) {
     }
   }
 
-  // Start the animation
+  // Initialize and start the animation
+  console.log('Starting city animation with canvas size:', canvas.width, 'x', canvas.height);
   draw(canvas, ctx);
 }
