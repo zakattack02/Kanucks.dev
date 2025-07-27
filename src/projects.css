@@ -3,7 +3,7 @@
     background-color: #1a1c1d;
     color: #eeeeee;
     padding: 2rem;
-
+}
 
 @media (prefers-color-scheme: light) {
     :root {
@@ -266,4 +266,14 @@ span {
   margin-bottom: 1rem;
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
