@@ -264,7 +264,7 @@ function testDraw(ctx) {
             ctx.stroke();
 }
 
-function draw() {
+function draw(canvas, ctx) {
     const config = {
       start_branches: 3,
       scale: 3
@@ -272,17 +272,16 @@ function draw() {
 
     const keepGoing = paintMatrix(ctx, { width: canvas.width, height: canvas.height }, config);
     if (keepGoing) {
-      animationFrameId = requestAnimationFrame(draw);
+      requestAnimationFrame(() => draw(canvas, ctx));
+    } else {
+      // Restart animation after a delay when it stops
+      setTimeout(() => {
+        restart(ctx, config);
+        draw(canvas, ctx);
+      }, 1000);
     }
   }
 
-  // Resize canvas to fill screen
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-  draw();
+  // Start the animation
+  draw(canvas, ctx);
 }

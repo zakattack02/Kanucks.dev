@@ -9,12 +9,23 @@ export default function Main() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
-      // Set canvas dimensions
+      // Set canvas dimensions immediately
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      // Start the animation
-      startCanvasAnimation(canvas);
+      // Clear canvas first
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Start the animation with a small delay to ensure canvas is ready
+      setTimeout(() => {
+        try {
+          startCanvasAnimation(canvas);
+          console.log('City animation started');
+        } catch (error) {
+          console.error('Error starting city animation:', error);
+        }
+      }, 100);
       
       // Handle window resize
       const handleResize = () => {
@@ -31,7 +42,7 @@ export default function Main() {
   }, []);
 
   return (
-    <div className="bg-[#0a0a0a] text-[#eeeeee] min-h-screen flex flex-col justify-center items-center font-[Arvo] text-center pt-20 relative overflow-hidden">
+    <div className="bg-[#0a0a0a] text-[#eeeeee] min-h-screen relative overflow-hidden">
       {/* Canvas Background */}
       <canvas
         ref={canvasRef}
@@ -41,12 +52,11 @@ export default function Main() {
         }}
       />
       
-      {/* Content - positioned above canvas */}
-      <div className="flex flex-col items-center justify-center space-y-8 relative z-50">
+      {/* Content - positioned at top */}
+      <div className="relative z-50 pt-32 flex flex-col items-center space-y-8">
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center drop-shadow-2xl"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center"
           style={{
-            textShadow: "0 0 30px rgba(238, 238, 238, 0.8), 0 0 60px rgba(238, 238, 238, 0.4)",
             color: "#ffffff"
           }}
           initial={{ opacity: 0, y: -50 }}
