@@ -9,28 +9,45 @@ export default function Main() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas) {
+      // Set canvas dimensions
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      // Start the animation
       startCanvasAnimation(canvas);
+      
+      // Handle window resize
+      const handleResize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      };
+      
+      window.addEventListener('resize', handleResize);
+      
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }
   }, []);
 
   return (
-    <div className="bg-[#1a1c1d] text-[#eeeeee] min-h-screen flex flex-col justify-center items-center font-[Arvo] text-center pt-20 relative overflow-hidden">
+    <div className="bg-[#0a0a0a] text-[#eeeeee] min-h-screen flex flex-col justify-center items-center font-[Arvo] text-center pt-20 relative overflow-hidden">
       {/* Canvas Background */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full z-0"
+        className="fixed inset-0 w-full h-full z-0"
         style={{
-          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1c1d 50%, #2a2c2d 100%)",
-          opacity: 0.7
+          backgroundColor: "#0a0a0a"
         }}
       />
       
-      {/* Content */}
-      <div className="flex flex-col items-center justify-center space-y-8 relative z-10">
+      {/* Content - positioned above canvas */}
+      <div className="flex flex-col items-center justify-center space-y-8 relative z-50">
         <motion.h1
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center drop-shadow-2xl"
           style={{
-            textShadow: "0 0 20px rgba(238, 238, 238, 0.5), 0 0 40px rgba(238, 238, 238, 0.3)"
+            textShadow: "0 0 30px rgba(238, 238, 238, 0.8), 0 0 60px rgba(238, 238, 238, 0.4)",
+            color: "#ffffff"
           }}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -48,33 +65,33 @@ export default function Main() {
           <a 
             href="https://github.com/zakattack02/" 
             aria-label="GitHub"
-            className="hover:scale-110 transition-transform duration-200 p-2 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-white/10"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20 shadow-2xl"
           >
             <img 
               alt="GitHub" 
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-lg" 
+              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-2xl" 
               src="/github-mark-white.svg"
             />
           </a>
           <a 
             href="https://www.linkedin.com/in/zachary-konik/" 
             aria-label="LinkedIn"
-            className="hover:scale-110 transition-transform duration-200 p-2 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-white/10"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20 shadow-2xl"
           >
             <img 
               alt="LinkedIn" 
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-lg" 
+              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-2xl" 
               src="/linkedin-white.svg"
             />
           </a>
           <a 
             href="mailto:zak@zmbg.us" 
             aria-label="Email"
-            className="hover:scale-110 transition-transform duration-200 p-2 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-white/10"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20 shadow-2xl"
           >
             <img 
               alt="Email" 
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-lg" 
+              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-20 xl:h-20 drop-shadow-2xl" 
               src="/email-white.png"
             />
           </a>
