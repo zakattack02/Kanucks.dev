@@ -3,7 +3,7 @@ import "../index.css";
 
 export default function Main() {
   return (
-    <div className="bg-[#1a1c1d] text-[#eeeeee] min-h-screen flex flex-col justify-center items-center font-[Arvo] text-center">
+    <div className="bg-[#1a1c1d] text-[#eeeeee] min-h-screen flex flex-col justify-center items-center font-[Arvo] text-center pt-20">
       <div className="flex flex-col items-center justify-center space-y-8">
         <motion.h1
           className="text-6xl font-bold text-center"
