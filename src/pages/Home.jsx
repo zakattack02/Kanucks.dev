@@ -52,13 +52,10 @@ export default function Main() {
         }}
       />
       
-      {/* Content - positioned at top */}
-      <div className="relative z-50 pt-32 flex flex-col items-center space-y-8">
+      {/* Content - positioned at top with higher z-index */}
+      <div className="relative z-50 pt-20 flex flex-col items-center justify-center min-h-screen space-y-8">
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center"
-          style={{
-            color: "#ffffff"
-          }}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center text-white drop-shadow-lg"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -75,7 +72,7 @@ export default function Main() {
           <a 
             href="https://github.com/zakattack02/" 
             aria-label="GitHub"
-            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/60 backdrop-blur-md border border-cyan-400/30 hover:bg-cyan-400/20 hover:border-cyan-400/60"
           >
             <img 
               alt="GitHub" 
@@ -86,7 +83,7 @@ export default function Main() {
           <a 
             href="https://www.linkedin.com/in/zachary-konik/" 
             aria-label="LinkedIn"
-            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/60 backdrop-blur-md border border-cyan-400/30 hover:bg-cyan-400/20 hover:border-cyan-400/60"
           >
             <img 
               alt="LinkedIn" 
@@ -97,7 +94,7 @@ export default function Main() {
           <a 
             href="mailto:zak@zmbg.us" 
             aria-label="Email"
-            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 p-3 rounded-full bg-black/60 backdrop-blur-md border border-cyan-400/30 hover:bg-cyan-400/20 hover:border-cyan-400/60"
           >
             <img 
               alt="Email" 

@@ -11,17 +11,17 @@ var cell_count_y = 0;
 // var SIZE = wallpaper.configuration.scale; // default = 3
 var SIZE = 3; // default = 3
 
-var lifeTime = 8000; //> config
-var lifeTime_branch = 15; //> config
-var prop_city2land = 12.0; //> config
-var prop_land2city = 0.003;
-var prop_branchOff =15; //> config
-var prop_branchOff_land = 6; //> config
-var prop_branchOff_tomain = 1;
-var branch_fallOff = 50;
-var change_hue_newMain = 9;
+var lifeTime = 2000; // Shorter for more circuit-like patterns
+var lifeTime_branch = 50; // Longer branches for circuit paths
+var prop_city2land = 2.0; // Less organic, more structured
+var prop_land2city = 0.8; // More structured patterns
+var prop_branchOff = 25; // More branching for circuit complexity
+var prop_branchOff_land = 15; // Circuit-like branching
+var prop_branchOff_tomain = 3; // More main branches
+var branch_fallOff = 20; // Faster branching
+var change_hue_newMain = 15; // More color variation
 // var start_branches = wallpaper.configuration.start_branches; // 3
-var start_branches = 3;
+var start_branches = 8; // More starting points for denser pattern
 // var start_branches = 3; // 3
 
 var max_steps_back = 300; //> config
@@ -62,9 +62,10 @@ class Branch {
         this.ownFields = [pos];
         this.age = 0;
         this.lifeTime = lifeTime;
-        this.hue = Math.round(Math.random() * 255);
-        this.saturation = 255;
-        this.lightness = lightness_default;
+        // Circuit-like colors: cyan and green variations
+        this.hue = Math.random() < 0.7 ? 180 + (Math.random() * 40) : 120 + (Math.random() * 40); // Cyan or green
+        this.saturation = 100;
+        this.lightness = 50;
     }
     getColor() {
         return 'hsl(' + this.hue + ',' + this.saturation + ',' + this.lightness + ')';
@@ -73,13 +74,22 @@ class Branch {
         if(!fromPos) {
             fromPos = this.pos;
         }
-        context.lineWidth = 4; // Increased from 2 for better visibility
+        context.lineWidth = 2; // Thinner lines for circuit aesthetic
         context.strokeStyle = this.getColor();
         context.beginPath();
         let offset = context.lineWidth;
         context.moveTo(2*SIZE*fromPos.x + offset, 2*SIZE*fromPos.y + offset);
         context.lineTo(2*SIZE*toPos.x + offset, 2*SIZE*toPos.y + offset);
         context.stroke();
+        
+        // Add circuit nodes/junctions
+        if(Math.random() < 0.3) {
+            context.fillStyle = this.getColor();
+            context.beginPath();
+            context.arc(2*SIZE*toPos.x + offset, 2*SIZE*toPos.y + offset, 3, 0, 2 * Math.PI);
+            context.fill();
+        }
+        
         this.pos = toPos;
         this.ownFields.push(toPos);
     }
@@ -120,6 +130,22 @@ class Branch {
             this.state = "STOPPED";
             return null;
         }
+        
+        // Circuit-like movement: prefer straight lines and right angles
+        if(this.mode === "CITY") {
+            // Prefer continuing in the same direction for straight circuit paths
+            let lastMove = this.ownFields.length > 1 ? 
+                new Pos(this.pos.x - this.ownFields[this.ownFields.length-2].x, 
+                        this.pos.y - this.ownFields[this.ownFields.length-2].y) : null;
+            
+            if(lastMove && Math.random() < 0.6) {
+                let continueStraight = new Pos(this.pos.x + lastMove.x, this.pos.y + lastMove.y);
+                if(freeFields.find(field => field.x === continueStraight.x && field.y === continueStraight.y)) {
+                    return continueStraight;
+                }
+            }
+        }
+        
         if(this.lifeTime - this.age < lifeTime_branch) {
             this.mode = "CITY";
         } else {
@@ -164,12 +190,9 @@ class Branch {
         cells[newPos.toIdx()] = 1;
     }
     setMain() {
-        this.saturation = 255;
-        this.lightness = lightness_default;
-        this.hue += change_hue_newMain;
-        if(this.hue > 255) {
-            this.hue -= 255;
-        }
+        this.saturation = 100;
+        this.lightness = 60; // Brighter for main circuits
+        this.hue = Math.random() < 0.5 ? 180 : 120; // Pure cyan or green
         this.lifeTime = lifeTime;
     }
     branchOff(context) {
@@ -268,8 +291,8 @@ function testDraw(ctx) {
 
 function draw(canvas, ctx) {
     const config = {
-      start_branches: 3,
-      scale: 6 // Increased from 3 for larger, more visible lines
+      start_branches: 8, // More branches for denser circuit pattern
+      scale: 4 // Good balance for circuit visibility
     };
 
     console.log('Drawing frame, branch count:', branchList.length);
