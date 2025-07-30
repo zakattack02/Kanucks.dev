@@ -21,42 +21,31 @@ export default function Main() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <a 
-            href="https://github.com/zakattack02/" 
-            aria-label="GitHub"
-            className="hover:scale-110 transition-transform duration-200 block"
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            <img 
-              alt="GitHub" 
-              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32" 
-              src="/github-mark-white.svg"
-            />
-          </a>
-          <a 
-            href="https://www.linkedin.com/in/zachary-konik/" 
-            aria-label="LinkedIn"
-            className="hover:scale-110 transition-transform duration-200 block"
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            <img 
-              alt="LinkedIn" 
-              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32" 
-              src="/linkedin-white.svg"
-            />
-          </a>
-          <a 
-            href="mailto:zak@zmbg.us" 
-            aria-label="Email"
-            className="hover:scale-110 transition-transform duration-200 block"
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            <img 
-              alt="Email" 
-              className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32" 
-              src="/email-white.png"
-            />
-          </a>
+              <div>
+    <span className="flex justify-center items-center gap-6 mt-2">
+    <a href="https://github.com/zakattack02/" aria-label="GitHub">
+      <img height={100} width={100}
+        src="/github-mark-white.png"
+        alt="GitHub"
+        className="w-8 h-8"
+      />
+    </a>
+    <a href="https://www.linkedin.com/in/zachary-konik/" aria-label="LinkedIn">
+      <img height={100} width={100}
+        src="/icons8-linkedin-100.png"
+        alt="LinkedIn"
+        className="w-8 h-8"
+      />
+    </a>
+    <a href="mailto:zak@zmbg.us" aria-label="Email">
+      <img height={100} width={100}
+        src="/icons8-email-100.png"
+        alt="Email"
+        className="w-8 h-8"
+      />
+    </a>
+  </span>
+  </div>
         </motion.div>
       </div>
     </div>
