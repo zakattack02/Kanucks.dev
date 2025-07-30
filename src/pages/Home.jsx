@@ -24,7 +24,8 @@ export default function Main() {
           <a 
             href="https://github.com/zakattack02/" 
             aria-label="GitHub"
-            className="hover:scale-110 transition-transform duration-200 p-6 rounded-full bg-black/40 backdrop-blur-md hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 block"
+            style={{ color: 'inherit', textDecoration: 'none' }}
           >
             <img 
               alt="GitHub" 
@@ -35,7 +36,8 @@ export default function Main() {
           <a 
             href="https://www.linkedin.com/in/zachary-konik/" 
             aria-label="LinkedIn"
-            className="hover:scale-110 transition-transform duration-200 p-6 rounded-full bg-black/40 backdrop-blur-md hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 block"
+            style={{ color: 'inherit', textDecoration: 'none' }}
           >
             <img 
               alt="LinkedIn" 
@@ -46,7 +48,8 @@ export default function Main() {
           <a 
             href="mailto:zak@zmbg.us" 
             aria-label="Email"
-            className="hover:scale-110 transition-transform duration-200 p-6 rounded-full bg-black/40 backdrop-blur-md hover:bg-white/20"
+            className="hover:scale-110 transition-transform duration-200 block"
+            style={{ color: 'inherit', textDecoration: 'none' }}
           >
             <img 
               alt="Email" 
