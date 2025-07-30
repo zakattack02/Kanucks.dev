@@ -2,12 +2,9 @@
 import React, { useState } from 'react';
 import { Document, Page } from 'react-pdf';
 
-// Set up PDF.js worker using a more reliable CDN
+// Set up PDF.js worker using CDN
 import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const InteractiveResume = () => {
   const [numPages, setNumPages] = useState(null);
@@ -16,15 +13,33 @@ const InteractiveResume = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Test PDF accessibility
+  React.useEffect(() => {
+    const testPdfAccess = async () => {
+      try {
+        const response = await fetch('/resume.pdf');
+        if (!response.ok) {
+          console.error('PDF file not accessible:', response.status, response.statusText);
+        } else {
+          console.log('PDF file is accessible');
+        }
+      } catch (err) {
+        console.error('Error accessing PDF:', err);
+      }
+    };
+    testPdfAccess();
+  }, []);
+
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
     setLoading(false);
   };
 
   const onDocumentLoadError = (error) => {
-    setError('Failed to load PDF. Please check if the file exists.');
+    setError(`Failed to load PDF: ${error.message}`);
     setLoading(false);
     console.error('PDF load error:', error);
+    console.log('Attempted to load PDF from: /resume.pdf');
   };
 
   const goToPrevPage = () => {
@@ -50,40 +65,40 @@ const InteractiveResume = () => {
       {/* Controls */}
       <div className="flex justify-center items-center gap-4 mb-6 flex-wrap">
         {/* Page Navigation */}
-        <div className="flex items-center gap-2 bg-black/20 rounded-full p-1">
+        <div className="flex items-center gap-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-1 shadow-lg">
           <button
             onClick={goToPrevPage}
             disabled={pageNumber <= 1}
-            className="px-4 py-2 rounded-full text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-4 py-2 rounded-full text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 backdrop-blur-sm"
           >
             Previous
           </button>
-          <span className="px-4 py-2 text-white">
+          <span className="px-4 py-2 text-white font-medium">
             Page {pageNumber} of {numPages || '--'}
           </span>
           <button
             onClick={goToNextPage}
             disabled={pageNumber >= numPages}
-            className="px-4 py-2 rounded-full text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-4 py-2 rounded-full text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 backdrop-blur-sm"
           >
             Next
           </button>
         </div>
 
         {/* Zoom Controls */}
-        <div className="flex items-center gap-2 bg-black/20 rounded-full p-1">
+        <div className="flex items-center gap-2 backdrop-blur-md bg-white/10 border border-white/20 rounded-full p-1 shadow-lg">
           <button
             onClick={zoomOut}
-            className="px-4 py-2 rounded-full text-white hover:bg-white/10 transition-all"
+            className="px-4 py-2 rounded-full text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
           >
             Zoom Out
           </button>
-          <span className="px-4 py-2 text-white">
+          <span className="px-4 py-2 text-white font-medium">
             {Math.round(scale * 100)}%
           </span>
           <button
             onClick={zoomIn}
-            className="px-4 py-2 rounded-full text-white hover:bg-white/10 transition-all"
+            className="px-4 py-2 rounded-full text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
           >
             Zoom In
           </button>
@@ -93,7 +108,7 @@ const InteractiveResume = () => {
         <a
           href="/resume.pdf"
           download="Zak_Konik_Resume.pdf"
-          className="px-6 py-2 bg-white text-black rounded-full hover:bg-gray-200 transition-all font-medium"
+          className="px-6 py-2 backdrop-blur-md bg-white/20 border border-white/30 text-white rounded-full hover:bg-white/30 hover:scale-105 transition-all duration-300 font-medium shadow-lg"
         >
           Download PDF
         </a>
