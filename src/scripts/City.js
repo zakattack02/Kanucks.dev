@@ -2,6 +2,8 @@
 
 export function startCanvasAnimation(canvas) {
     const ctx = canvas.getContext("2d");
+    console.log('Canvas animation started, canvas size:', canvas.width, 'x', canvas.height);
+    
     let animationFrameId;
 
 var cell_count_x = 0;
@@ -9,23 +11,23 @@ var cell_count_y = 0;
 // var SIZE = wallpaper.configuration.scale; // default = 3
 var SIZE = 3; // default = 3
 
-var lifeTime = 8000; //> config
-var lifeTime_branch = 15; //> config
-var prop_city2land = 12.0; //> config
-var prop_land2city = 0.003;
-var prop_branchOff =15; //> config
-var prop_branchOff_land = 6; //> config
-var prop_branchOff_tomain = 1;
-var branch_fallOff = 50;
-var change_hue_newMain = 9;
+var lifeTime = 2000; // Shorter for more circuit-like patterns
+var lifeTime_branch = 50; // Longer branches for circuit paths
+var prop_city2land = 2.0; // Less organic, more structured
+var prop_land2city = 0.8; // More structured patterns
+var prop_branchOff = 25; // More branching for circuit complexity
+var prop_branchOff_land = 15; // Circuit-like branching
+var prop_branchOff_tomain = 3; // More main branches
+var branch_fallOff = 20; // Faster branching
+var change_hue_newMain = 15; // More color variation
 // var start_branches = wallpaper.configuration.start_branches; // 3
-var start_branches = 0;
+var start_branches = 8; // More starting points for denser pattern
 // var start_branches = 3; // 3
 
 var max_steps_back = 300; //> config
 
-var lightness_default = 130;
-var lightness_branch = 50;
+var lightness_default = 60; // Increased brightness
+var lightness_branch = 80; // Increased brightness
 
 var cells = [];
 var branchList = [];
@@ -60,9 +62,10 @@ class Branch {
         this.ownFields = [pos];
         this.age = 0;
         this.lifeTime = lifeTime;
-        this.hue = Math.round(Math.random() * 255);
-        this.saturation = 255;
-        this.lightness = lightness_default;
+        // Circuit-like colors: cyan and green variations
+        this.hue = Math.random() < 0.7 ? 180 + (Math.random() * 40) : 120 + (Math.random() * 40); // Cyan or green
+        this.saturation = 100;
+        this.lightness = 50;
     }
     getColor() {
         return 'hsl(' + this.hue + ',' + this.saturation + ',' + this.lightness + ')';
@@ -71,13 +74,22 @@ class Branch {
         if(!fromPos) {
             fromPos = this.pos;
         }
-        context.lineWidth = 2;
+        context.lineWidth = 2; // Thinner lines for circuit aesthetic
         context.strokeStyle = this.getColor();
         context.beginPath();
         let offset = context.lineWidth;
         context.moveTo(2*SIZE*fromPos.x + offset, 2*SIZE*fromPos.y + offset);
         context.lineTo(2*SIZE*toPos.x + offset, 2*SIZE*toPos.y + offset);
         context.stroke();
+        
+        // Add circuit nodes/junctions
+        if(Math.random() < 0.3) {
+            context.fillStyle = this.getColor();
+            context.beginPath();
+            context.arc(2*SIZE*toPos.x + offset, 2*SIZE*toPos.y + offset, 3, 0, 2 * Math.PI);
+            context.fill();
+        }
+        
         this.pos = toPos;
         this.ownFields.push(toPos);
     }
@@ -97,13 +109,13 @@ class Branch {
         if (pos.x + 1 < cell_count_x && cells[pos.toIdx(1,0)] === 0) {
             freeFields.push(new Pos(pos.x+1, pos.y));
         }
-        if (pos.x - 1 > 0 && cells[pos.toIdx(-1,0)] === 0) {
+        if (pos.x - 1 >= 0 && cells[pos.toIdx(-1,0)] === 0) {
             freeFields.push(new Pos(pos.x-1, pos.y));
         }
         if (pos.y + 1 < cell_count_y && cells[pos.toIdx(0,1)] === 0) { 
             freeFields.push(new Pos(pos.x, pos.y+1));
         }
-        if (pos.x - 1 > 0 && cells[pos.toIdx(0,-1)] === 0) { 
+        if (pos.y - 1 >= 0 && cells[pos.toIdx(0,-1)] === 0) { 
             freeFields.push(new Pos(pos.x, pos.y-1));
         }
         return freeFields;
@@ -118,6 +130,22 @@ class Branch {
             this.state = "STOPPED";
             return null;
         }
+        
+        // Circuit-like movement: prefer straight lines and right angles
+        if(this.mode === "CITY") {
+            // Prefer continuing in the same direction for straight circuit paths
+            let lastMove = this.ownFields.length > 1 ? 
+                new Pos(this.pos.x - this.ownFields[this.ownFields.length-2].x, 
+                        this.pos.y - this.ownFields[this.ownFields.length-2].y) : null;
+            
+            if(lastMove && Math.random() < 0.6) {
+                let continueStraight = new Pos(this.pos.x + lastMove.x, this.pos.y + lastMove.y);
+                if(freeFields.find(field => field.x === continueStraight.x && field.y === continueStraight.y)) {
+                    return continueStraight;
+                }
+            }
+        }
+        
         if(this.lifeTime - this.age < lifeTime_branch) {
             this.mode = "CITY";
         } else {
@@ -162,12 +190,9 @@ class Branch {
         cells[newPos.toIdx()] = 1;
     }
     setMain() {
-        this.saturation = 255;
-        this.lightness = lightness_default;
-        this.hue += change_hue_newMain;
-        if(this.hue > 255) {
-            this.hue -= 255;
-        }
+        this.saturation = 100;
+        this.lightness = 60; // Brighter for main circuits
+        this.hue = Math.random() < 0.5 ? 180 : 120; // Pure cyan or green
         this.lifeTime = lifeTime;
     }
     branchOff(context) {
@@ -251,7 +276,7 @@ function paintMatrix(ctx, size, config){
 }
 
 function restart(ctx, config) {
-    ctx.reset();
+    ctx.clearRect(0, 0, width, height);
     initialize(config);
 }
 
@@ -264,25 +289,28 @@ function testDraw(ctx) {
             ctx.stroke();
 }
 
-function draw() {
+function draw(canvas, ctx) {
     const config = {
-      start_branches: 3,
-      scale: 3
+      start_branches: 8, // More branches for denser circuit pattern
+      scale: 4 // Good balance for circuit visibility
     };
 
+    console.log('Drawing frame, branch count:', branchList.length);
+    
     const keepGoing = paintMatrix(ctx, { width: canvas.width, height: canvas.height }, config);
     if (keepGoing) {
-      animationFrameId = requestAnimationFrame(draw);
+      requestAnimationFrame(() => draw(canvas, ctx));
+    } else {
+      console.log('Animation stopped, restarting...');
+      // Restart animation after a delay when it stops
+      setTimeout(() => {
+        restart(ctx, config);
+        draw(canvas, ctx);
+      }, 1000);
     }
   }
 
-  // Resize canvas to fill screen
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-  draw();
+  // Initialize and start the animation
+  console.log('Starting city animation with canvas size:', canvas.width, 'x', canvas.height);
+  draw(canvas, ctx);
 }
