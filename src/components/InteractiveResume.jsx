@@ -4,7 +4,7 @@ import { Document, Page } from 'react-pdf';
 
 // Set up PDF.js worker using CDN
 import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 const InteractiveResume = () => {
   const [numPages, setNumPages] = useState(null);
@@ -12,6 +12,7 @@ const InteractiveResume = () => {
   const [scale, setScale] = useState(1.0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [useIframe, setUseIframe] = useState(false);
 
   // Test PDF accessibility
   React.useEffect(() => {
@@ -20,11 +21,16 @@ const InteractiveResume = () => {
         const response = await fetch('/resume.pdf');
         if (!response.ok) {
           console.error('PDF file not accessible:', response.status, response.statusText);
+          setError(`PDF not found: ${response.status} ${response.statusText}`);
+          setLoading(false);
         } else {
           console.log('PDF file is accessible');
+          console.log('Response headers:', response.headers);
         }
       } catch (err) {
         console.error('Error accessing PDF:', err);
+        setError(`Network error: ${err.message}`);
+        setLoading(false);
       }
     };
     testPdfAccess();
@@ -112,58 +118,96 @@ const InteractiveResume = () => {
         >
           Download PDF
         </a>
+
+        {/* Toggle View Button */}
+        <button
+          onClick={() => setUseIframe(!useIframe)}
+          className="px-6 py-2 backdrop-blur-md bg-blue-500/20 border border-blue-500/30 text-white rounded-full hover:bg-blue-500/30 hover:scale-105 transition-all duration-300 font-medium shadow-lg"
+        >
+          {useIframe ? 'Use PDF Viewer' : 'Use Simple View'}
+        </button>
       </div>
 
       {/* PDF Viewer */}
       <div className="flex justify-center">
         <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-          {loading && (
-            <div className="flex items-center justify-center h-96 text-black">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                <p>Loading resume...</p>
-              </div>
-            </div>
-          )}
-          
-          {error && (
-            <div className="flex items-center justify-center h-96 text-red-600 bg-red-50">
-              <div className="text-center p-8">
-                <p className="mb-4">{error}</p>
-                <p className="text-sm text-gray-600">
-                  Please add your resume.pdf file to the public folder
-                </p>
-              </div>
-            </div>
-          )}
-
-          {!loading && !error && (
-            <Document
-              file="/resume.pdf"
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={
-                <div className="flex items-center justify-center h-96">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-                </div>
-              }
+          {useIframe ? (
+            /* Simple iframe fallback */
+            <iframe
+              src="/resume.pdf"
+              width="800"
+              height="600"
+              title="Resume PDF"
+              className="border-0"
             >
-              <Page 
-                pageNumber={pageNumber} 
-                scale={scale}
-                renderTextLayer={true}
-                renderAnnotationLayer={true}
-              />
-            </Document>
+              <p>Your browser does not support iframes. 
+                <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+                  Click here to view the PDF
+                </a>
+              </p>
+            </iframe>
+          ) : (
+            <>
+              {loading && (
+                <div className="flex items-center justify-center h-96 text-black">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+                    <p>Loading resume...</p>
+                  </div>
+                </div>
+              )}
+              
+              {error && (
+                <div className="flex items-center justify-center h-96 text-red-600 bg-red-50">
+                  <div className="text-center p-8">
+                    <p className="mb-4">{error}</p>
+                    <p className="text-sm text-gray-600">
+                      Try the "Use Simple View" button above, or 
+                      <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-1">
+                        open PDF directly
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {!loading && !error && (
+                <Document
+                  file="/resume.pdf"
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  onLoadError={onDocumentLoadError}
+                  loading={
+                    <div className="flex items-center justify-center h-96 text-black">
+                      <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+                        <p>Loading document...</p>
+                      </div>
+                    </div>
+                  }
+                  error={
+                    <div className="flex items-center justify-center h-96 text-red-600 bg-red-50">
+                      <div className="text-center p-8">
+                        <p className="mb-4">Error loading PDF</p>
+                        <p className="text-sm text-gray-600">
+                          Please check if resume.pdf exists in the public folder
+                        </p>
+                      </div>
+                    </div>
+                  }
+                >
+                  <Page 
+                    pageNumber={pageNumber} 
+                    scale={scale}
+                    renderTextLayer={true}
+                    renderAnnotationLayer={true}
+                  />
+                </Document>
+              )}
+            </>
           )}
         </div>
       </div>
 
-      {/* Instructions */}
-      <div className="mt-8 text-center text-gray-400 text-sm">
-        <p>Place your resume.pdf file in the public folder to display it here.</p>
-        <p>Supports multi-page PDFs with zoom and navigation controls.</p>
-      </div>
     </div>
   );
 };
