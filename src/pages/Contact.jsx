@@ -6,24 +6,24 @@ const Contact = () => {
     <div>
     <span className="flex justify-center items-center gap-6 mt-2">
     <a href="https://github.com/zakattack02/" aria-label="GitHub">
-      <img height={100} width={100}
+      <img
         src="/github-mark-white.svg"
         alt="GitHub"
-        className="w-8 h-8"
+        className=""
       />
     </a>
     <a href="https://www.linkedin.com/in/zachary-konik/" aria-label="LinkedIn">
-      <img height={100} width={100}
+      <img 
         src="/linkedin-white.svg"
         alt="LinkedIn"
-        className="w-8 h-8"
+        className=""
       />
     </a>
     <a href="mailto:zak@zmbg.us" aria-label="Email">
-      <img height={100} width={100}
+      <img
         src="/email-white.png"
         alt="Email"
-        className="w-8 h-8"
+        className=" border-2 border-white rounded-xl border-solid"
       />
     </a>
   </span>

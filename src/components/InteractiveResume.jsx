@@ -48,14 +48,6 @@ const InteractiveResume = () => {
     console.log('Attempted to load PDF from: /resume.pdf');
   };
 
-  const goToPrevPage = () => {
-    setPageNumber(prev => Math.max(prev - 1, 1));
-  };
-
-  const goToNextPage = () => {
-    setPageNumber(prev => Math.min(prev + 1, numPages));
-  };
-
   const zoomIn = () => {
     setScale(prev => Math.min(prev + 0.2, 2.0));
   };

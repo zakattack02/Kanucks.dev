@@ -21,10 +21,9 @@ const About = () => {
             onClick={() => setShowResume(!showResume)}
             className="mt-8 px-8 py-3 backdrop-blur-md bg-white/20 border border-white/30 text-white font-semibold rounded-full hover:bg-white/30 hover:scale-105 transition-all duration-300 shadow-lg"
           >
-            {showResume ? 'Hide Resume' : 'View Interactive Resume'}
           </button>
         </div>
-        
+    
         {showResume && <InteractiveResume />}
       </div>
     </div>

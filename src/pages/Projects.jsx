@@ -43,8 +43,8 @@ const Projects = () => {
         <div className="user-info">
           {profile && (
             <>
-              <figure>
-                <img alt="user avatar" src={profile.avatar_url} />
+              <figure >
+                <img className="img-container" alt="user avatar" src={profile.avatar_url} />
               </figure>
               <div>
                 <h2>
