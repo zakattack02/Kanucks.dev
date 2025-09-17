@@ -13,8 +13,7 @@ const About = () => {
           <p className="text-xl leading-relaxed max-w-3xl mx-auto">
             I am a Computer Engineer passionate about technology and innovation.
             I specialize in software development, embedded systems, and hardware
-            design. I believe in solving real-world problems through cutting-edge
-            solutions.
+            design.
           </p>
           
           <button 
