@@ -1,7 +1,10 @@
 // src/pages/About.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import InteractiveResume from '../components/InteractiveResume';
 
 const About = () => {
+  const [showResume, setShowResume] = useState(false);
+
   return (
     <div className="pt-32 pb-24 px-8 text-white min-h-screen flex flex-col justify-center" style={{ backgroundColor: "#1a1c1d" }}>
       <div className="container mx-auto px-8 text-center max-w-4xl">
@@ -13,7 +16,15 @@ const About = () => {
             design. I believe in solving real-world problems through cutting-edge
             solutions.
           </p>
+          
+          <button 
+            onClick={() => setShowResume(!showResume)}
+            className="mt-8 px-8 py-3 backdrop-blur-md bg-white/20 border border-white/30 text-white font-semibold rounded-full hover:bg-white/30 hover:scale-105 transition-all duration-300 shadow-lg"
+          >
+          </button>
         </div>
+    
+        {showResume && <InteractiveResume />}
       </div>
     </div>
   );

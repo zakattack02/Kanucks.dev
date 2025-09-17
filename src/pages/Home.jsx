@@ -3,9 +3,9 @@ import "../index.css";
 
 export default function Main() {
   return (
-    <div className="text-[#eeeeee] min-h-screen w-full">
+    <div className="text-[#eeeeee]  w-full">
       {/* Content - centered on page */}
-      <div className="flex flex-col items-center justify-center min-h-screen space-y-8">
+      <div className="flex flex-col items-center justify-center py-40">
         <motion.h1
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center text-white"
           initial={{ opacity: 0, y: -50 }}
