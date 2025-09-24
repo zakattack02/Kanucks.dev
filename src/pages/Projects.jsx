@@ -1,6 +1,6 @@
 // src/pages/Projects.jsx
 import React, { useEffect, useState } from "react";
-import "../projects.css"; // Import the CSS file
+import { motion } from "framer-motion";
 
 const Projects = () => {
   const [profile, setProfile] = useState(null);
@@ -32,165 +32,195 @@ const Projects = () => {
     repo.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
-    <main className="projects-container" style={{
-      backgroundColor: "#1a1c1d",
-      minHeight: "100vh",
-      paddingTop: "100px", // Account for fixed navbar
-      paddingBottom: "2rem"
-    }}>
-      <section className="intro">
-        <div className="user-info">
-          {profile && (
-            <>
-              <figure >
-                <img className="img-container" alt="user avatar" src={profile.avatar_url} />
-              </figure>
-              <div>
-                <h2>
-                  <a href={profile.html_url}>
-                    <strong>{profile.name} - {profile.login}</strong>
+    <div className="pt-32 pb-24 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
+      <div className="container mx-auto max-w-6xl">
+        {/* Hero Section */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            My Projects
+          </h1>
+        </motion.div>
+
+        {/* Profile Section */}
+        {profile && (
+          <motion.div
+            className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-8 mb-12 hover:bg-white/10 transition-all duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <motion.img
+                src={profile.avatar_url}
+                alt="Profile Avatar"
+                className="w-24 h-24 rounded-full border-4 border-blue-500/30"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
+              />
+              <div className="text-center md:text-left">
+                <h2 className="text-2xl font-bold text-blue-400 mb-2">
+                  <a href={profile.html_url} className="hover:text-cyan-400 transition-colors">
+                    {profile.name} - {profile.login}
                   </a>
                 </h2>
-                <p>{profile.bio}</p>
-                <p>
-                  Followers: <strong>{profile.followers}</strong> Repos:{" "}
-                  <strong>{profile.public_repos}</strong> Gists:{" "}
-                  <strong>{profile.public_gists}</strong>
-                </p>
-                <p>
-                  Work: {profile.company} Location: {profile.location}
-                </p>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
-
-    <div style={{
-      width: "100%",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "center",
-      backgroundColor: "#1a1c1d",
-      padding: "2em 0"
-    }}>
-      <section className="repos" style={{
-        width: "100%",
-        backgroundColor: "#1a1c1d",
-        padding: "2em",
-        borderRadius: "0"
-      }}>
-        <input
-          type="text"
-          className="filter-repos"
-          style={{
-            border: "2px solid #1688f0",
-            outline: "2px solid rgba(22, 136, 240, 0.3)",
-            boxShadow: "0 0 10px rgba(22, 136, 240, 0.2)",
-            transition: "all 0.3s ease",
-            backgroundColor: "rgba(26, 28, 29, 0.8)",
-            color: "#eeeeee"
-          }}
-          placeholder="🔍 Search Projects"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onFocus={(e) => {
-            e.target.style.outline = "2px solid rgba(22, 136, 240, 0.6)";
-            e.target.style.boxShadow = "0 0 15px rgba(22, 136, 240, 0.4)";
-          }}
-          onBlur={(e) => {
-            e.target.style.outline = "2px solid rgba(22, 136, 240, 0.3)";
-            e.target.style.boxShadow = "0 0 10px rgba(22, 136, 240, 0.2)";
-          }}
-        />
-        <ul className="repo-list" style={{
-          width: "100%",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-          gap: "2rem",
-          padding: "2rem 0",
-          margin: "0"
-        }}>
-          {filteredRepos.map((repo) => (
-            <li key={repo.id} className="repo" style={{
-              border: "2px solid #1688f0",
-              borderRadius: "12px",
-              background: "linear-gradient(135deg, rgba(26, 28, 29, 0.9) 0%, rgba(22, 136, 240, 0.05) 100%)",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(22, 136, 240, 0.1)",
-              transition: "all 0.3s ease",
-              position: "relative",
-              overflow: "hidden",
-              width: "100%",
-              minHeight: "200px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = "translateY(-5px)";
-              e.target.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.4), 0 0 30px rgba(22, 136, 240, 0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(22, 136, 240, 0.1)";
-            }}
-            >
-              <div style={{
-                position: "absolute",
-                top: "0",
-                left: "0",
-                right: "0",
-                height: "3px",
-                background: "linear-gradient(90deg, #1688f0, #00bcd4, #1688f0)",
-                backgroundSize: "200% 100%",
-                animation: "gradient 3s ease infinite"
-              }}></div>
-              <div style={{ padding: "20px", flexGrow: 1 }}>
-                <h3 className="repo-name" style={{
-                  color: "#1688f0",
-                  textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
-                  marginTop: "12px",
-                  marginBottom: "16px"
-                }}>{repo.name}</h3>
-                <p className="repo-description" style={{
-                  padding: "8px 0px",
-                  fontStyle: repo.description ? "normal" : "italic",
-                  opacity: repo.description ? "1" : "0.7",
-                  color: "#eeeeee",
-                  flexGrow: 1
-                }}>
-                  {repo.description || "No description available"}
-                </p>
-              </div>
-              <div style={{ padding: "16px", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                <a href={repo.html_url} className="link-btn" style={{
-                  background: "linear-gradient(45deg, #1688f0, #00bcd4)",
-                  border: "none",
-                  color: "white",
-                  fontWeight: "bold",
-                  textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)"
-                }}>
-                  📂 View Code
-                </a>
-                {repo.homepage && (
-                  <a href={repo.homepage} className="link-btn" style={{
-                    background: "linear-gradient(45deg, #4caf50, #8bc34a)",
-                    border: "none",
-                    color: "white",
-                    fontWeight: "bold",
-                    textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)"
-                  }}>
-                    🚀 Live Demo
-                  </a>
+                <p className="text-gray-300 mb-3">{profile.bio}</p>
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm">
+                  <span className="px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30">
+                    👥 {profile.followers} Followers
+                  </span>
+                  <span className="px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30">
+                    📂 {profile.public_repos} Repos
+                  </span>
+                  <span className="px-3 py-1 bg-purple-500/20 rounded-full border border-purple-500/30">
+                    📝 {profile.public_gists} Gists
+                  </span>
+                </div>
+                {(profile.company || profile.location) && (
+                  <p className="text-gray-400 text-sm mt-2">
+                    {profile.company && `🏢 ${profile.company}`}
+                    {profile.company && profile.location && " • "}
+                    {profile.location && `📍 ${profile.location}`}
+                  </p>
                 )}
               </div>
-            </li>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Search Section */}
+        <motion.div
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          <div className="relative max-w-md mx-auto">
+            <input
+              type="text"
+              placeholder="🔍 Search Projects"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-6 py-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all duration-300"
+            />
+          </div>
+        </motion.div>
+
+        {/* Projects Grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {filteredRepos.map((repo) => (
+            <motion.div
+              key={repo.id}
+              variants={itemVariants}
+              whileHover={{ scale: 1.02, y: -5 }}
+              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300"
+            >
+              <div className="flex flex-col h-full">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-blue-400 mb-3">
+                    {repo.name}
+                  </h3>
+                  <p className="text-gray-300 text-sm mb-4 flex-1">
+                    {repo.description || "No description available"}
+                  </p>
+                  
+                  {/* Language and Stats */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {repo.language && (
+                      <span className="px-2 py-1 bg-white/10 rounded text-xs text-cyan-300">
+                        {repo.language}
+                      </span>
+                    )}
+                    <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
+                      ⭐ {repo.stargazers_count}
+                    </span>
+                    <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
+                      🍴 {repo.forks_count}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <motion.a
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    📂 Code
+                  </motion.a>
+                  {repo.homepage && (
+                    <motion.a
+                      href={repo.homepage}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      🚀 Demo
+                    </motion.a>
+                  )}
+                </div>
+              </div>
+            </motion.div>
           ))}
-        </ul>
-      </section>
+        </motion.div>
+
+        {/* No Results Message */}
+        {filteredRepos.length === 0 && search && (
+          <motion.div
+            className="text-center py-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-gray-400 text-lg">No projects found matching "{search}"</p>
+            <button
+              onClick={() => setSearch("")}
+              className="mt-4 px-6 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg hover:bg-blue-500/30 transition-all duration-300"
+            >
+              Clear Search
+            </button>
+          </motion.div>
+        )}
       </div>
-    </main>
+    </div>
   );
 };
 

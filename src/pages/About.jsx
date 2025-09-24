@@ -305,7 +305,7 @@ const About = () => {
   };
 
   return (
-    <div className="pt-32 pb-24 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
+    <div className="pt-32 pb-12 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
       <div className="container mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-16"
@@ -322,6 +322,7 @@ const About = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
+          className="pt-8"
         >
           <motion.a
             href="/resume.pdf"
