@@ -1,0 +1,267 @@
+// src/pages/ProjectsSS.jsx - Enhanced Mobile-Friendly Version
+import React, { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
+
+const ProjectsSS = () => {
+  const [profile, setProfile] = useState(null);
+  const [repos, setRepos] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    // Fetch user profile
+    const fetchProfile = async () => {
+      const res = await fetch("https://api.github.com/users/zakattack02");
+      const data = await res.json();
+      setProfile(data);
+    };
+
+    // Fetch repositories
+    const fetchRepos = async () => {
+      const res = await fetch(
+        "https://api.github.com/users/zakattack02/repos?sort=pushed"
+      );
+      const data = await res.json();
+      setRepos(data);
+    };
+
+    fetchProfile();
+    fetchRepos();
+  }, []);
+
+  const filteredRepos = repos.filter((repo) =>
+    repo.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  return (
+    <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-32 pb-8 sm:pb-12 md:pb-16 lg:pb-24 px-3 sm:px-4 md:px-6 lg:px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
+      <div className="container mx-auto max-w-7xl">
+        {/* Enhanced Hero Section with Better Mobile Title */}
+        <motion.div
+          className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Mobile-Optimized Title */}
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 sm:mb-4 md:mb-6 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent leading-tight px-2 sm:px-4" 
+              style={{ 
+                lineHeight: "1.1",
+                wordBreak: "keep-all",
+                hyphens: "none"
+              }}>
+            <span className="block sm:inline">My</span>{' '}
+            <span className="block sm:inline bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">Projects</span>
+          </h1>
+                  
+        </motion.div>
+
+        {/* Enhanced Search Section */}
+        <motion.div
+          className="mb-6 sm:mb-8 md:mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <div className="relative max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto px-3 sm:px-4">
+            <input
+              type="text"
+              placeholder="🔍 Search Projects..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 backdrop-blur-md bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 text-sm sm:text-base shadow-lg hover:shadow-blue-500/10"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Main Content Layout */}
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          {/* Enhanced Profile Section */}
+          <div className="lg:col-span-1 order-1 lg:order-none">
+            {profile && (
+              <motion.div
+                className="backdrop-blur-md bg-white/5 border border-white/10 rounded-xl p-4 sm:p-5 lg:p-4 mb-4 hover:bg-white/10 hover:border-blue-500/20 transition-all duration-300 lg:sticky lg:top-6 shadow-lg"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
+              >
+                <div className="text-center">
+                  <a href={profile.html_url} target="_blank" rel="noopener noreferrer">
+                    <motion.img
+                      src={profile.avatar_url}
+                      alt="Profile Avatar"
+                      className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-18 lg:h-18 rounded-full border-2 border-blue-500/30 mx-auto mb-3 cursor-pointer hover:border-blue-400/50 transition-all duration-300 shadow-md"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </a>
+                  <h2 className="text-sm sm:text-base lg:text-sm font-bold text-blue-400 mb-1 sm:mb-2">
+                    <a href={profile.html_url} className="hover:text-cyan-400 transition-colors">
+                      {profile.name}
+                    </a>
+                  </h2>
+                  <p className="text-gray-400 text-xs sm:text-sm lg:text-xs mb-2 sm:mb-3">@{profile.login}</p>
+                  
+                  {/* Mobile-Optimized Bio */}
+                  {profile.bio && (
+                    <p className="text-gray-300 text-xs sm:text-sm lg:text-xs mb-3 sm:mb-4 leading-relaxed line-clamp-3">
+                      {profile.bio}
+                    </p>
+                  )}
+                  
+                  {/* Enhanced Stats */}
+                  <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:flex-col lg:gap-1 lg:space-y-1">
+                    <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-xs text-blue-300 bg-blue-500/10 px-2 py-1 rounded-full">
+                      📂 {profile.public_repos} Repos
+                    </div>
+                    <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-xs text-cyan-300 bg-cyan-500/10 px-2 py-1 rounded-full">
+                      👥 {profile.followers} Followers
+                    </div>
+                    {profile.location && (
+                      <div className="flex items-center gap-1 text-xs sm:text-sm lg:text-xs text-gray-400 bg-gray-500/10 px-2 py-1 rounded-full">
+                        📍 {profile.location}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Enhanced Projects Grid */}
+          <div className="lg:col-span-3 order-2 lg:order-none">
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-5 lg:gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {filteredRepos.map((repo) => (
+                <motion.div
+                  key={repo.id}
+                  variants={itemVariants}
+                  whileHover={{ scale: 1.02, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-5 md:p-6 hover:bg-white/10 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 flex flex-col min-h-[260px] sm:min-h-[280px] touch-manipulation group"
+                >
+                  {/* Enhanced Content Section */}
+                  <div className="flex-grow mb-4">
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-blue-400 mb-2 sm:mb-3 line-clamp-2 group-hover:text-cyan-400 transition-colors duration-300">
+                      {repo.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </h3>
+                    <p className="text-gray-300 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed min-h-[2.5rem] sm:min-h-[3rem] line-clamp-3">
+                      {repo.description || "No description available"}
+                    </p>
+                    
+                    {/* Enhanced Language and Stats */}
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3">
+                      {repo.language && (
+                        <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-full text-xs text-cyan-300 font-medium">
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="px-2 sm:px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400 flex items-center gap-1">
+                        ⭐ {repo.stargazers_count}
+                      </span>
+                      <span className="px-2 sm:px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400 flex items-center gap-1">
+                        🍴 {repo.forks_count}
+                      </span>
+                    </div>
+                    
+                    {/* Last Updated */}
+                    <div className="text-xs text-gray-500">
+                      Updated: {new Date(repo.updated_at).toLocaleDateString()}
+                    </div>
+                  </div>
+
+                  {/* Enhanced Action Buttons */}
+                  <div className="flex gap-2 sm:gap-3 mt-auto">
+                    <motion.a
+                      href={repo.html_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-xs sm:text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 hover:border-blue-400/50 transition-all duration-300 min-h-[40px] sm:min-h-[44px] flex items-center justify-center gap-1 group"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="group-hover:scale-110 transition-transform duration-200">📂</span>
+                      <span>Code</span>
+                    </motion.a>
+                    {repo.homepage && (
+                      <motion.a
+                        href={repo.homepage}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-xs sm:text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 hover:border-green-400/50 transition-all duration-300 min-h-[40px] sm:min-h-[44px] flex items-center justify-center gap-1 group"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span className="group-hover:scale-110 transition-transform duration-200">🚀</span>
+                        <span>Demo</span>
+                      </motion.a>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            
+              {/* Enhanced No Results Message */}
+              {filteredRepos.length === 0 && search && (
+                <motion.div
+                  className="text-center py-8 sm:py-12 md:py-16 col-span-full"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="text-4xl sm:text-5xl mb-4">🔍</div>
+                  <p className="text-gray-400 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6">
+                    No projects found matching <span className="text-blue-400 font-medium">"{search}"</span>
+                  </p>
+                  <motion.button
+                    onClick={() => setSearch("")}
+                    className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 text-sm sm:text-base min-h-[44px] touch-manipulation font-medium"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Clear Search
+                  </motion.button>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectsSS;
