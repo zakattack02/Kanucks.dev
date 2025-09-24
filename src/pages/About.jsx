@@ -1,9 +1,9 @@
 // src/pages/About.jsx
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 
 const About = () => {
-  const [showResume] = useState(false);
+  //const [] = useState(false);
   const [activeSkillView, setActiveSkillView] = useState('badges');
   const [githubData, setGithubData] = useState({
     user: null,
@@ -305,7 +305,7 @@ const About = () => {
   };
 
   return (
-    <div className="pt-32 pb-12 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
+    <div className="pt-32 pb-12 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d"}}>
       <div className="container mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-16"
@@ -313,16 +313,15 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent" style={{ padding: "80px" }}>
             About Me
           </h1>
 
         <motion.div
-          className="text-center"
+          className="text-center pt-8"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="pt-8"
         >
           <motion.a
             href="/resume.pdf"

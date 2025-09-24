@@ -1,6 +1,5 @@
 // src/pages/Projects.jsx
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 const Projects = () => {
   const [profile, setProfile] = useState(null);
