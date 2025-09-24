@@ -33,10 +33,14 @@ img {
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
+
+/* Only apply blue colors to regular content links, not navigation */
+a:not(nav a) {
+  color: #646cff;
+}
+a:not(nav a):hover {
   color: #535bf2; 
 }
 
@@ -52,13 +56,13 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #bf4342;
+  /*background-color: #bf4342;*/
   /*#1a1a1a;*/
   cursor: pointer;
   transition: border-color 0.25s;

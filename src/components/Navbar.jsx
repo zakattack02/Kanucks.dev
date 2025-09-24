@@ -1,97 +1,45 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+
+  const isActive = (path) => location.pathname === path;
+
   return (
-    <nav
-      style={{
-        position: "fixed",
-        top: "20px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 1000,
-        backgroundColor: "rgba(26, 28, 29, 0.9)",
-        backdropFilter: "blur(10px)",
-        borderRadius: "50px",
-        padding: "0.8rem 2rem",
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(22, 136, 240, 0.1)",
-        border: "1px solid rgba(22, 136, 240, 0.2)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "2rem",
-        fontSize: "1.1rem",
-      }}
-    >
-      <Link 
-        to="/" 
-        style={{ 
-          textDecoration: "none",
-          color: "#eeeeee",
-          padding: "0.5rem 1rem",
-          borderRadius: "25px",
-          transition: "all 0.3s ease",
-          position: "relative"
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "rgba(22, 136, 240, 0.2)";
-          e.target.style.color = "#1688f0";
-          e.target.style.transform = "scale(1.05)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
-          e.target.style.color = "#eeeeee";
-          e.target.style.transform = "scale(1)";
-        }}
-      >
-        Home
-      </Link>
-      <Link 
-        to="/projects" 
-        style={{ 
-          textDecoration: "none",
-          color: "#eeeeee",
-          padding: "0.5rem 1rem",
-          borderRadius: "25px",
-          transition: "all 0.3s ease",
-          position: "relative"
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "rgba(22, 136, 240, 0.2)";
-          e.target.style.color = "#1688f0";
-          e.target.style.transform = "scale(1.05)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
-          e.target.style.color = "#eeeeee";
-          e.target.style.transform = "scale(1)";
-        }}
-      >
-        Projects
-      </Link>
-      <Link 
-        to="/about" 
-        style={{ 
-          textDecoration: "none",
-          color: "#eeeeee",
-          padding: "0.5rem 1rem",
-          borderRadius: "25px",
-          transition: "all 0.3s ease",
-          position: "relative"
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "rgba(22, 136, 240, 0.2)";
-          e.target.style.color = "#1688f0";
-          e.target.style.transform = "scale(1.05)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
-          e.target.style.color = "#eeeeee";
-          e.target.style.transform = "scale(1)";
-        }}
-      >
-        About
-      </Link>
+    <nav className="fixed top-2 sm:top-5 left-1/2 transform -translate-x-1/2 z-50 backdrop-blur-md bg-white/5 border border-white/10 rounded-full px-3 sm:px-6 lg:px-8 py-2 sm:py-3 shadow-lg hover:shadow-blue-500/25 transition-all duration-300">
+      <div className="flex items-center justify-center gap-2 sm:gap-4 lg:gap-8 text-sm sm:text-base lg:text-lg font-medium">
+        <Link 
+          to="/" 
+          className={`px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 hover:scale-105 touch-manipulation ${
+            isActive('/') 
+              ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
+          }`}
+        >
+          Home
+        </Link>
+        <Link 
+          to="/projects" 
+          className={`px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 hover:scale-105 touch-manipulation ${
+            isActive('/projects') 
+              ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
+          }`}
+        >
+          Projects
+        </Link>
+        <Link 
+          to="/about" 
+          className={`px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 hover:scale-105 touch-manipulation ${
+            isActive('/about') 
+              ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
+          }`}
+        >
+          About
+        </Link>
+      </div>
     </nav>
   );
 };
