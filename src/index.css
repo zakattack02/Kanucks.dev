@@ -33,10 +33,14 @@ img {
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
+
+/* Only apply blue colors to regular content links, not navigation */
+a:not(nav a) {
+  color: #646cff;
+}
+a:not(nav a):hover {
   color: #535bf2; 
 }
 

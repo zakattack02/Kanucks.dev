@@ -14,7 +14,7 @@ const Navbar = () => {
           className={`px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 ${
             isActive('/') 
               ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
           }`}
         >
           Home
@@ -24,7 +24,7 @@ const Navbar = () => {
           className={`px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 ${
             isActive('/projects') 
               ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
           }`}
         >
           Projects
@@ -34,7 +34,7 @@ const Navbar = () => {
           className={`px-4 py-2 rounded-full transition-all duration-300 hover:scale-105 ${
             isActive('/about') 
               ? 'bg-gradient-to-r from-blue-500/30 to-cyan-500/30 text-white border border-blue-500/50' 
-              : 'text-gray-300 hover:text-white hover:bg-white/10'
+              : 'text-gray-400 hover:text-cyan-400 hover:bg-white/10'
           }`}
         >
           About

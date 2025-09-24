@@ -17,14 +17,7 @@ createRoot(document.getElementById("root")).render(
       <Nav />
       <Routes>
         {/* Define routes for different pages */}
-        <Route path="/" element={
-          <>
-            <Main />
-            <div>
-              <Contact />
-            </div>
-          </>
-        } /> {/* Home page with Contact */}
+        <Route path="/" element={<Main />} /> {/* Home page with Contact */}
         <Route path="/about" element={<About />} /> {/* About page */}
         <Route path="/contact" element={<Contact />} /> {/* Contact page */}
         <Route path="/projects" element={<Projects />} /> {/* Projects page */}

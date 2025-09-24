@@ -58,18 +58,18 @@ const Projects = () => {
     <div className="pt-32 pb-24 px-8 text-white min-h-screen" style={{ backgroundColor: "#1a1c1d" }}>
       <div className="container mx-auto max-w-6xl">
         {/* Hero Section */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            My Projects
-          </h1>
-        </motion.div>
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text px-4 text-transparent" style={{ lineHeight: '1.3' }}>
+              My Projects
+            </h1>
+          </motion.div>
 
-        {/* Search Section */}
+          {/* Search Section */}
         <motion.div
           className="mb-8"
           initial={{ opacity: 0, y: 20 }}
@@ -140,58 +140,57 @@ const Projects = () => {
               key={repo.id}
               variants={itemVariants}
               whileHover={{ scale: 1.02, y: -5 }}
-              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300"
+              className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-300 flex flex-col"
             >
-              <div className="flex flex-col h-full">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-blue-400 mb-3">
-                    {repo.name}
-                  </h3>
-                  <p className="text-gray-300 text-sm mb-4 flex-1">
-                    {repo.description || "No description available"}
-                  </p>
-                  
-                  {/* Language and Stats */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {repo.language && (
-                      <span className="px-2 py-1 bg-white/10 rounded text-xs text-cyan-300">
-                        {repo.language}
-                      </span>
-                    )}
-                    <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
-                      ⭐ {repo.stargazers_count}
+              {/* Content Section */}
+              <div className="flex-grow mb-4">
+                <h3 className="text-xl font-bold text-blue-400 mb-3">
+                  {repo.name}
+                </h3>
+                <p className="text-gray-300 text-sm mb-4 leading-relaxed min-h-[3rem]">
+                  {repo.description || "No description available"}
+                </p>
+                
+                {/* Language and Stats */}
+                <div className="flex flex-wrap gap-2">
+                  {repo.language && (
+                    <span className="px-2 py-1 bg-white/10 rounded text-xs text-cyan-300">
+                      {repo.language}
                     </span>
-                    <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
-                      🍴 {repo.forks_count}
-                    </span>
-                  </div>
+                  )}
+                  <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
+                    ⭐ {repo.stargazers_count}
+                  </span>
+                  <span className="px-2 py-1 bg-white/10 rounded text-xs text-gray-400">
+                    🍴 {repo.forks_count}
+                  </span>
                 </div>
+              </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-3">
+              {/* Action Buttons */}
+              <div className="flex gap-3 mt-auto">
+                <motion.a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  📂 Code
+                </motion.a>
+                {repo.homepage && (
                   <motion.a
-                    href={repo.html_url}
+                    href={repo.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    📂 Code
+                    🚀 Demo
                   </motion.a>
-                  {repo.homepage && (
-                    <motion.a
-                      href={repo.homepage}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      🚀 Demo
-                    </motion.a>
-                  )}
-                </div>
+                )}
               </div>
             </motion.div>
           ))}
