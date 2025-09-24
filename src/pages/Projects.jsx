@@ -1,5 +1,6 @@
 // src/pages/Projects.jsx
 import React, { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
 
 const Projects = () => {
   const [profile, setProfile] = useState(null);
@@ -68,52 +69,6 @@ const Projects = () => {
           </h1>
         </motion.div>
 
-        {/* Profile Section */}
-        {profile && (
-          <motion.div
-            className="backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-8 mb-12 hover:bg-white/10 transition-all duration-300"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <motion.img
-                src={profile.avatar_url}
-                alt="Profile Avatar"
-                className="w-24 h-24 rounded-full border-4 border-blue-500/30"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="text-center md:text-left">
-                <h2 className="text-2xl font-bold text-blue-400 mb-2">
-                  <a href={profile.html_url} className="hover:text-cyan-400 transition-colors">
-                    {profile.name} - {profile.login}
-                  </a>
-                </h2>
-                <p className="text-gray-300 mb-3">{profile.bio}</p>
-                <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm">
-                  <span className="px-3 py-1 bg-blue-500/20 rounded-full border border-blue-500/30">
-                    👥 {profile.followers} Followers
-                  </span>
-                  <span className="px-3 py-1 bg-cyan-500/20 rounded-full border border-cyan-500/30">
-                    📂 {profile.public_repos} Repos
-                  </span>
-                  <span className="px-3 py-1 bg-purple-500/20 rounded-full border border-purple-500/30">
-                    📝 {profile.public_gists} Gists
-                  </span>
-                </div>
-                {(profile.company || profile.location) && (
-                  <p className="text-gray-400 text-sm mt-2">
-                    {profile.company && `🏢 ${profile.company}`}
-                    {profile.company && profile.location && " • "}
-                    {profile.location && `📍 ${profile.location}`}
-                  </p>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
         {/* Search Section */}
         <motion.div
           className="mb-8"
@@ -132,13 +87,54 @@ const Projects = () => {
           </div>
         </motion.div>
 
-        {/* Projects Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
+        {/* Main Content Layout */}
+        <div className="grid lg:grid-cols-4 gap-8">
+          {/* Left Sidebar - Profile Section */}
+          <div className="lg:col-span-1">
+            {profile && (
+              <motion.div
+                className="backdrop-blur-md bg-white/5 border border-white/10 rounded-lg p-3 mb-4 hover:bg-white/10 transition-all duration-300 sticky top-8"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <div className="text-center">
+                  <a href={profile.html_url} target="_blank" rel="noopener noreferrer">
+                    <motion.img
+                      src={profile.avatar_url}
+                      alt="Profile Avatar"
+                      className="w-16 h-16 rounded-full border-2 border-blue-500/30 mx-auto mb-2 cursor-pointer hover:border-blue-400/50 transition-colors"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </a>
+                  <h2 className="text-sm font-bold text-blue-400 mb-1">
+                    <a href={profile.html_url} className="hover:text-cyan-400 transition-colors">
+                      {profile.name}
+                    </a>
+                  </h2>
+                  <p className="text-gray-400 text-xs mb-2">@{profile.login}</p>
+                  <p className="text-gray-300 text-xs mb-3">{profile.bio}</p>
+                  <div className="space-y-1">
+                    <div className="text-xs text-blue-300">📂 {profile.public_repos} Repos</div>
+                    <div className="text-xs text-cyan-300">� {profile.followers} Followers</div>
+                    {profile.location && (
+                      <div className="text-xs text-gray-400">📍 {profile.location}</div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Right Content - Projects Grid */}
+          <div className="lg:col-span-3">
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
           {filteredRepos.map((repo) => (
             <motion.div
               key={repo.id}
@@ -199,25 +195,27 @@ const Projects = () => {
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
-        {/* No Results Message */}
-        {filteredRepos.length === 0 && search && (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-gray-400 text-lg">No projects found matching "{search}"</p>
-            <button
-              onClick={() => setSearch("")}
-              className="mt-4 px-6 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg hover:bg-blue-500/30 transition-all duration-300"
-            >
-              Clear Search
-            </button>
-          </motion.div>
-        )}
+            
+            {/* No Results Message */}
+            {filteredRepos.length === 0 && search && (
+              <motion.div
+                className="text-center py-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p className="text-gray-400 text-lg">No projects found matching "{search}"</p>
+                <button
+                  onClick={() => setSearch("")}
+                  className="mt-4 px-6 py-2 bg-blue-500/20 border border-blue-500/30 rounded-lg hover:bg-blue-500/30 transition-all duration-300"
+                >
+                  Clear Search
+                </button>
+              </motion.div>
+            )}
+            </motion.div>
+          </div>
+        </div>
       </div>
     </div>
   );

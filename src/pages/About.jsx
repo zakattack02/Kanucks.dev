@@ -1,6 +1,6 @@
 // src/pages/About.jsx
 import React, { useState, useEffect } from 'react';
-
+import { motion } from 'framer-motion';
 
 const About = () => {
   //const [] = useState(false);
@@ -317,26 +317,6 @@ const About = () => {
             About Me
           </h1>
 
-        <motion.div
-          className="text-center pt-8"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          <motion.a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-white font-semibold rounded-full hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
-          >
-            <span >
-              📄 View Resume
-            </span>
-          </motion.a>
-        </motion.div>
-
           {/* This is the introduction section for the "About Me" page 
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Computer Engineer passionate about bridging the gap between hardware and software to create innovative solutions.
@@ -367,6 +347,28 @@ const About = () => {
                 projects, or diving deep into the world of hardware design and embedded systems.
               </p>
             </div>
+
+            {/* Resume Button Bar */}
+            <motion.div
+              className="w-full"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <motion.a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full flex items-center justify-center gap-3 px-6 py-4 backdrop-blur-md bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-white font-semibold rounded-xl hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 group"
+                //className="w-full flex items-center justify-center gap-3 px-6 py-4 backdrop-blur-md bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-white font-semibold rounded-xl hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 group"
+              >
+                <span className="text-2xl group-hover:scale-110 transition-transform duration-300">📄</span>
+                <span className="text-lg">View My Resume</span>
+                <span className="text-sm opacity-70">→</span>
+              </motion.a>
+            </motion.div>
 
             <div className="grid grid-cols-2 gap-4">
               {achievements.map((achievement, index) => (
