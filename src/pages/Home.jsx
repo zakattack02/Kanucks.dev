@@ -4,7 +4,7 @@ import "../index.css";
 
 export default function Main() {
   return (
-    <div className="pt-64 pb-24 px-8 text-white min-h-screen flex items-center justify-center" style={{ backgroundColor: "#1a1c1d" }}>
+    <div className="pt-32 sm:pt-48 lg:pt-64 pb-12 sm:pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8 text-white min-h-screen flex items-center justify-center" style={{ backgroundColor: "#1a1c1d" }}>
       <div className="container mx-auto max-w-6xl">
         {/* Hero Section */}
         <motion.div

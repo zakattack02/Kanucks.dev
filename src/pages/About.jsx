@@ -2,8 +2,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+};
+
 const About = () => {
   const [activeSkillView, setActiveSkillView] = useState('badges');
+  const { width } = useWindowSize();
   const [githubData, setGithubData] = useState({
     user: null,
     repos: [],
@@ -323,12 +346,17 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent px-2 sm:px-4" style={{ lineHeight: "1.2" }}>
+          <h1 
+            className="font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent px-2 sm:px-4 leading-tight" 
+            style={{
+              fontSize: width < 450 ? '36px' : 
+                       width < 640 ? '72px' :
+                       width < 768 ? '86px' :
+                       width < 1024 ? '115px' : '144px'
+            }}
+          >
             About Me
           </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-            Computer Engineer passionate about bridging the gap between hardware and software to create innovative solutions.
-          </p>
         </motion.div>
 
         <motion.div

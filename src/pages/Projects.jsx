@@ -2,10 +2,33 @@
 import React, { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 
+const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+};
+
 const Projects = () => {
   const [profile, setProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [search, setSearch] = useState("");
+  const { width } = useWindowSize();
 
   useEffect(() => {
     // Fetch user profile
@@ -64,12 +87,17 @@ const Projects = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text px-2 sm:px-4 text-transparent leading-tight" style={{ lineHeight: '1.3' }}>
+            <h1 
+              className="font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight"
+              style={{
+                fontSize: width < 450 ? '36px' : 
+                         width < 640 ? '72px' :
+                         width < 768 ? '86px' :
+                         width < 1024 ? '115px' : '144px'
+              }}
+            >
               My Projects
             </h1>
-            <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto px-4">
-              Explore my collection of projects, ranging from web applications to system tools
-            </p>
           </motion.div>
 
           {/* Search Section */}
@@ -118,7 +146,7 @@ const Projects = () => {
                   </h2>
                   <p className="text-gray-400 text-sm lg:text-xs mb-3 lg:mb-2">@{profile.login}</p>
                   <p className="text-gray-300 text-sm lg:text-xs mb-4 lg:mb-3 leading-relaxed">{profile.bio}</p>
-                  <div className="flex flex-wrap justify-center gap-3 lg:flex-col lg:gap-1 lg:space-y-1">
+                  <div className="flex flex-row flex-wrap justify-center gap-2 sm:gap-3 lg:flex-col lg:gap-1 lg:space-y-1">
                     <div className="text-sm lg:text-xs text-blue-300">📂 {profile.public_repos} Repos</div>
                     <div className="text-sm lg:text-xs text-cyan-300">👥 {profile.followers} Followers</div>
                     {profile.location && (
@@ -156,28 +184,28 @@ const Projects = () => {
                 </p>
                 
                 {/* Language and Stats */}
-                <div className="flex flex-wrap gap-2 mb-3">
+                <div className="flex flex-row flex-wrap gap-1.5 sm:gap-2 mb-3">
                   {repo.language && (
-                    <span className="px-3 py-1 bg-white/10 rounded-full text-xs text-cyan-300 font-medium">
+                    <span className="px-2.5 sm:px-3 py-1 bg-white/10 rounded-full text-xs text-cyan-300 font-medium">
                       {repo.language}
                     </span>
                   )}
-                  <span className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400">
+                  <span className="px-2.5 sm:px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400">
                     ⭐ {repo.stargazers_count}
                   </span>
-                  <span className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400">
+                  <span className="px-2.5 sm:px-3 py-1 bg-white/10 rounded-full text-xs text-gray-400">
                     🍴 {repo.forks_count}
                   </span>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-2 sm:gap-3 mt-auto">
+              <div className="flex flex-row flex-wrap gap-2 sm:gap-3 mt-auto">
                 <motion.a
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 px-3 sm:px-4 py-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 min-h-[44px] flex items-center justify-center"
+                  className="flex-1 min-w-[120px] px-3 sm:px-4 py-3 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-center text-sm font-medium rounded-lg hover:from-blue-500/30 hover:to-cyan-500/30 transition-all duration-300 min-h-[44px] flex items-center justify-center"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -188,7 +216,7 @@ const Projects = () => {
                     href={repo.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 px-3 sm:px-4 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300 min-h-[44px] flex items-center justify-center"
+                    className="flex-1 min-w-[120px] px-3 sm:px-4 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-center text-sm font-medium rounded-lg hover:from-green-500/30 hover:to-emerald-500/30 transition-all duration-300 min-h-[44px] flex items-center justify-center"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >

@@ -24,7 +24,7 @@ const Contact = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.div 
-            className="flex justify-center items-center gap-8"
+            className="flex flex-row flex-wrap justify-center items-center gap-4 sm:gap-6 lg:gap-8"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}

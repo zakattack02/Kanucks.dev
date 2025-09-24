@@ -11,6 +11,9 @@ module.exports = {
             to: { opacity: 1 },
           },
         },
+        screens: {
+          'xs': '450px',
+        },
       },
     },
     plugins: [],
