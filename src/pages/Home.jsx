@@ -44,7 +44,7 @@ export default function Main() {
           className="text-center mt-12"
         >
           <a 
-            href="/src/pages/White River Technologies, Inc..html"
+            href="/White River Technologies/index.html"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block text-blue-400 hover:text-cyan-400 transition-colors duration-300 text-lg"
