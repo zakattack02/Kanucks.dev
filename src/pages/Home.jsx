@@ -35,6 +35,23 @@ export default function Main() {
         >
           <Contact />
         </motion.div>
+
+        {/* White River Technologies Link */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          className="text-center mt-12"
+        >
+          <a 
+            href="/src/pages/White River Technologies, Inc..html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-blue-400 hover:text-cyan-400 transition-colors duration-300 text-lg"
+          >
+            View White River Technologies →
+          </a>
+        </motion.div>
       </div>
     </div>
   );
