@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly" # Checks every Monday
+    open-pull-requests-limit: 5
+    # This automatically assigns you to the PR
+    assignees:
+      - "zakattack02"
